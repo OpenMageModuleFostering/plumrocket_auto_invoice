@@ -1,18 +1,19 @@
 <?xml version="1.0"?>
 <package>
     <name>Plumrocket_Auto_Invoice</name>
-    <version>1.1.0</version>
+    <version>1.1.1</version>
     <stability>stable</stability>
     <license uri="http://wiki.plumrocket.net/wiki/EULA">End-user License Agreement</license>
     <channel>community</channel>
     <extends/>
     <summary>Plumrocket Auto Invoice is a convenient Magento payment processing module that was designed to generate invoice automatically.</summary>
     <description>Plumrocket Auto Invoice is a convenient Magento payment processing module that was designed to generate invoice automatically. After a client confirms his order the system will send the invoice automatically thus allowing website admin to avoid manual processing of payment transactions.</description>
-    <notes>Added automated email sending while creating separate invoices.</notes>
+    <notes>- Minor improvements&#xD;
+- Fixed bug with multiple orders blocking automated invoices creation</notes>
     <authors><author><name>Plumrocket Team</name><user>plumrocket</user><email>support@plumrocket.com</email></author></authors>
-    <date>2016-03-18</date>
-    <time>10:02:23</time>
-    <contents><target name="mageetc"><dir name="modules"><file name="Plumrocket_AutoInvoice.xml" hash="19002966d54dd644d1b01d67a9d8d7d3"/></dir></target><target name="magecommunity"><dir name="Plumrocket"><dir name="AutoInvoice"><dir name="Block"><dir name="System"><dir name="Config"><file name="Version.php" hash="1f60ec9ef1680266bd639c41a7802177"/></dir></dir></dir><dir name="Helper"><file name="Data.php" hash="a95ccea81b14cca001f89e1da4750ace"/><file name="Main.php" hash="283bdec0fceed57707c86908631e9a2d"/></dir><dir name="Model"><file name="Observer.php" hash="21041cfb6c59ca3d75df3218a239c1a5"/><dir name="System"><dir name="Config"><dir name="Source"><file name="CaptureAmount.php" hash="28a27588ddd56fbbab43f09e31a9bac8"/><file name="SendInvoice.php" hash="8d19c278d460f27a0d23e2fa8b9d072f"/></dir></dir></dir></dir><dir name="etc"><file name="adminhtml.xml" hash="e45a29110a7ea4ed9e26535cca2f47a4"/><file name="config.xml" hash="daab0e2ac4f2b6b5482f2d59dcca6949"/><file name="system.xml" hash="fd42373f949ccad34b233f61cf31479b"/></dir></dir></dir></target></contents>
+    <date>2016-05-10</date>
+    <time>08:25:08</time>
+    <contents><target name="mageetc"><dir name="modules"><file name="Plumrocket_AutoInvoice.xml" hash="78ec7e72d9b4a39bdf764c4aa905cc94"/></dir></target><target name="magecommunity"><dir name="Plumrocket"><dir name="AutoInvoice"><dir name="Block"><dir name="System"><dir name="Config"><file name="Version.php" hash="1f60ec9ef1680266bd639c41a7802177"/></dir></dir></dir><dir name="Helper"><file name="Data.php" hash="a95ccea81b14cca001f89e1da4750ace"/><file name="Main.php" hash="283bdec0fceed57707c86908631e9a2d"/></dir><dir name="Model"><file name="Observer.php" hash="a84985469371ad7cba581e4e7d74f3b3"/><dir name="System"><dir name="Config"><dir name="Source"><file name="CaptureAmount.php" hash="28a27588ddd56fbbab43f09e31a9bac8"/><file name="SendInvoice.php" hash="8d19c278d460f27a0d23e2fa8b9d072f"/></dir></dir></dir></dir><dir name="etc"><file name="adminhtml.xml" hash="e45a29110a7ea4ed9e26535cca2f47a4"/><file name="config.xml" hash="adf26f164957267be803deacb0af5991"/><file name="system.xml" hash="fd42373f949ccad34b233f61cf31479b"/></dir></dir></dir></target></contents>
     <compatible/>
     <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php><package><name>Plumrocket_Base</name><channel>community</channel><min/><max/></package></required></dependencies>
 </package>

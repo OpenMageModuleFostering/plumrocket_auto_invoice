@@ -66,7 +66,7 @@ class Plumrocket_AutoInvoice_Model_Observer
 				$invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
 
 				if ($invoice) {
-					Mage::register('current_invoice', $invoice);
+					Mage::register('current_invoice', $invoice, true);
 					$invoice->setRequestedCaptureCase($_helper->getCaptureAmount($order->getStoreId()));
 					$invoice->register();
 					$invoice->getOrder()->setCustomerNoteNotify(false);
@@ -157,7 +157,7 @@ class Plumrocket_AutoInvoice_Model_Observer
 				return $this;
 			}
 			$_invoice->sendEmail(); 
-		} catch (Mage_Core_Exception $e) {
+		} catch (Exception $e) {
 			 //echo $e->getMessage();
 		}
 

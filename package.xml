@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<package>
+    <name>Plumrocket_Auto_Invoice</name>
+    <version>1.0.2</version>
+    <stability>stable</stability>
+    <license uri="http://wiki.plumrocket.net/wiki/EULA">End-user License Agreement</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>Plumrocket Auto Invoice is a convenient Magento payment processing module that was designed to generate invoice automatically.</summary>
+    <description>Plumrocket Auto Invoice is a convenient Magento payment processing module that was designed to generate invoice automatically. After a client confirms his order the system will send the invoice automatically thus allowing website admin to avoid manual processing of payment transactions.</description>
+    <notes>Plumrocket Auto Invoice</notes>
+    <authors><author><name>Plumrocket Team</name><user>plumrocket</user><email>support@plumrocket.com</email></author></authors>
+    <date>2013-09-18</date>
+    <time>07:56:53</time>
+    <contents><target name="mageetc"><dir name="modules"><file name="Plumrocket_AutoInvoice.xml" hash="e5f828c16dc2563ea55373d83e93b837"/></dir></target><target name="magecommunity"><dir name="Plumrocket"><dir name="AutoInvoice"><dir name="Block"><dir name="System"><dir name="Config"><file name="Version.php" hash="3adcf7698f60ef53547cb6259797668c"/></dir></dir></dir><dir name="Helper"><file name="Data.php" hash="ab7a87f35fd20b8dfeb90b20f3ce6020"/></dir><dir name="Model"><file name="Observer.php" hash="f1d22b9ee93019aa674e6c6bb6ee03a5"/></dir><dir name="etc"><file name="adminhtml.xml" hash="e45a29110a7ea4ed9e26535cca2f47a4"/><file name="config.xml" hash="1cb5afa9b2997aeef7b3bcdee185c7b6"/><file name="system.xml" hash="327ed7120fca05dbb062d59479deddc9"/></dir></dir></dir></target></contents>
+    <compatible/>
+    <dependencies><required><php><min>5.2.0</min><max>6.0.0</max></php></required></dependencies>
+</package>

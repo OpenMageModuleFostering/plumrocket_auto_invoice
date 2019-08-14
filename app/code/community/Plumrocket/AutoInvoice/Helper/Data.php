@@ -15,18 +15,25 @@
  * Do not edit or add to this file
  *
  * @package     Plumrocket_Auto_Invoice
- * @copyright   Copyright (c) 2013 Plumrocket Inc. (http://www.plumrocket.com)
+ * @copyright   Copyright (c) 2015 Plumrocket Inc. (http://www.plumrocket.com)
  * @license     http://wiki.plumrocket.net/wiki/EULA  End-user License Agreement
  */
-?>
-<?php
 
-class Plumrocket_AutoInvoice_Helper_Data extends Mage_Core_Helper_Abstract
+
+class Plumrocket_AutoInvoice_Helper_Data extends Plumrocket_AutoInvoice_Helper_Main
 {
 	private $_configPrefix = 'autoinvoice/';
 	
 	public function moduleEnabled($storeId = null){
-		return Mage::getStoreConfig($this->_configPrefix.'general/enabled', $storeId);
+		return (bool)Mage::getStoreConfig($this->_configPrefix.'general/enabled', $storeId);
+	}
+
+	public function sendInvoiceAfterOrderIsCreated($storeId = null){
+		return !Mage::getStoreConfig($this->_configPrefix.'general/send_invoice', $storeId);
+	}
+
+	public function sendInvoiceAfterOrderIsShipped($storeId = null){
+		return Mage::getStoreConfig($this->_configPrefix.'general/send_invoice', $storeId) == 1;
 	}
 	
 	public function getCaptureAmount($storeId = null){

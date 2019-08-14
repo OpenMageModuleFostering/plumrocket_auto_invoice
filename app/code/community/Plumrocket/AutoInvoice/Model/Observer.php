@@ -23,64 +23,60 @@
 
 class Plumrocket_AutoInvoice_Model_Observer
 {
-
-	public function salesOrderSaveCommitAfter(Varien_Event_Observer $observer)
+	public function run()
 	{
-		
-		if (!Mage::helper('autoinvoice')->moduleEnabled()){
+		$_helper = Mage::helper('autoinvoice');
+		if (!$_helper->moduleEnabled()){
 			return $this;
 		}
 		
-		$order = $observer->getEvent()->getOrder();
-		if ( ($order->getState() == Mage_Sales_Model_Order::STATE_NEW || $order->getState() == Mage_Sales_Model_Order::STATE_PROCESSING)  && !$order->getIsProcessedByMCornerOrdersObserver()  ) 
-		{	
-			$orders = Mage::getModel('sales/order_invoice')->getCollection()->addAttributeToFilter('order_id', array('eq'=>$order->getId()));
-			$orders->getSelect()->limit(1);
-			if ((int)$orders->count() !== 0) {
-				return $this;
+		$dateModel	= Mage::getModel('core/date');
+		$time		= $dateModel->timestamp() - 60 * 60;
+
+		$collection = Mage::getModel('sales/order')->getCollection()
+			->addFieldToFilter('main_table.created_at', array('gt' => $dateModel->gmtDate('Y-m-d H:i:s', $time)))
+			->addFieldToFilter('main_table.state', array('in' => array(
+				Mage_Sales_Model_Order::STATE_NEW,
+				Mage_Sales_Model_Order::STATE_PROCESSING,
+			)));
+		
+		$_resource = Mage::getSingleton('core/resource'); 	
+		$collection->getSelect()
+			->joinLeft( array('invoice' => $_resource->getTableName('sales/invoice')), 'invoice.order_id = main_table.entity_id', array())
+			->where('order_id IS NULL');
+			
+		foreach($collection as $order){
+			
+			if (!$_helper->moduleEnabled($order->getStoreId())){
+				continue;
 			}
-
-            try {
-                if(!$order->canInvoice()) {
-                    $order->addStatusHistoryComment('Auto Invoice: Order cannot be invoiced.', false);
-                    $order->save();
-                }
-
-                $invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
-                $invoice->setRequestedCaptureCase(Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE);
-
-				$incrementId = Mage::getModel('sales/order_invoice')->getCollection()
-					->addFieldToFilter('store_id', Mage::app()->getStore()->getId())
-					->setOrder('increment_id','DESC')
-					 ->setPageSize(1)
-					 ->setCurPage(1)
-					 ->getFirstItem()
-					 ->getIncrementId();
-
-				$invoice->setIncrementId($incrementId + 1);
-				$invoice->sendEmail('true','');
-				$invoice->setIncrementId(null);
-
-               
+			
+			if (!$order->canInvoice()) {
+				continue;
+			}
+			
+			try{
+				$invoice = Mage::getModel('sales/service_order', $order)->prepareInvoice();
 				
-                $invoice->register();
-                $invoice->getOrder()->setCustomerNoteNotify(false);
-                $invoice->getOrder()->setIsInProcess(true); 
-                
-                $order->addStatusHistoryComment('Auto Invoice: Order invoiced.', false);
-                $transaction = Mage::getModel('core/resource_transaction')
-                    ->addObject($invoice)
-                    ->addObject($invoice->getOrder());
-                $transaction->save();
-                
-            } catch (Exception $e) {
-                $order->addStatusHistoryComment('Auto Invoice: Unexpected error: '.$e->getMessage(), false);
-                $order->save();
+				if ($invoice) {
+					$invoice->setRequestedCaptureCase($_helper->getCaptureAmount($order->getStoreId()));
+					$invoice->register();
+					$invoice->getOrder()->setCustomerNoteNotify(false);
+					$invoice->getOrder()->setIsInProcess(true);
+					
+					$transactionSave = Mage::getModel('core/resource_transaction')
+						->addObject($invoice)
+						->addObject($invoice->getOrder())
+						->save();
+					
+					$invoice->sendEmail(true);  
+					
+					$order->addStatusHistoryComment('Auto Invoice: Order invoiced.', false)->save(); 
+				}
+			} catch (Exception $e) {
+                //echo $e->getMessage();
             }
-        }
-		return $this;
+		}
 	}
 	
-
-		
 }

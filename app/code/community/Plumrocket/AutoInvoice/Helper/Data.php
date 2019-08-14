@@ -25,8 +25,16 @@ class Plumrocket_AutoInvoice_Helper_Data extends Mage_Core_Helper_Abstract
 {
 	private $_configPrefix = 'autoinvoice/';
 	
-	public function moduleEnabled(){
-		return Mage::getStoreConfig($this->_configPrefix.'general/enabled');
+	public function moduleEnabled($storeId = null){
+		return Mage::getStoreConfig($this->_configPrefix.'general/enabled', $storeId);
+	}
+	
+	public function getCaptureAmount($storeId = null){
+		$value = Mage::getStoreConfig($this->_configPrefix.'general/capture', $storeId);
+		if (!$value){
+			$value = Mage_Sales_Model_Order_Invoice::CAPTURE_OFFLINE;
+		}
+		return $value;
 	}
 }
 	 

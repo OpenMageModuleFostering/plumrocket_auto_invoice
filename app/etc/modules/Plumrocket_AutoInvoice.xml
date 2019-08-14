@@ -4,7 +4,7 @@
     <Plumrocket_AutoInvoice>
       <active>true</active>
       <codePool>community</codePool>
-      <version>1.0.5</version>
+      <version>1.0.6</version>
       <wiki>http://wiki.plumrocket.com/wiki/Magento_Auto_Invoice_v1.x_Extension</wiki>
       <depends>
         <Plumrocket_Base />
